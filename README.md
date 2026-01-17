@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ItemHub - Modern Tech Collection Platform
 
-## Getting Started
+ItemHub is a sleek, premium web application built with Next.js 16 and Express.js. It allows users to browse a curated collection of tech items, view detailed specifications, and contribute new items to the marketplace (protected).
 
-First, run the development server:
+## 🚀 Technologies Used
 
+- **Frontend**: Next.js 16 (App Router), Tailwind CSS
+- **Backend**: Express.js, Node.js
+- **State/Auth**: Mock Authentication with Browser Cookies
+- **Styling**: Premium Modern UI with Backdrop Blurs and Custom Animations
+
+## ✨ Implemented Features
+
+1.  **7-Section Landing Page**: A comprehensive homepage featuring Hero, Features, How It Works, Products Preview, Testimonials, Pricing, and CTA sections.
+2.  **Mock Authentication**: A secure-feeling login system using `admin@test.com` and `123456`.
+3.  **Dynamic Item Collection**: Publicly accessible page that fetches and displays products from the Express server.
+4.  **In-Depth Item Details**: Dedicated dynamic routes (`/items/[id]`) for every product.
+5.  **Protected "Add Item" Route**: A managed form that only allows authenticated users to add new products to the server.
+6.  **Full-Stack Integration**: Real-time communication between the Next.js frontend and Express.js backend.
+
+## 🛣️ Route Summary
+
+- `/` - Landing Page (Public)
+- `/items` - Product Collection (Public)
+- `/items/[id]` - Product Details (Public)
+- `/login` - Authentication Page (Public)
+- `/add-item` - Contribution Form (Protected - requires login)
+
+## 🛠️ Setup & Installation
+
+### 1. Backend Setup
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd "ItemHub(server)"
+npm install
+node index.js
 ```
+*The server will run on http://localhost:5000*
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Frontend Setup
+```bash
+cd ItemHub
+npm install
+npm run dev
+```
+*The application will be available at http://localhost:3000*
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🔐 Credentials
+- **Email**: `admin@test.com`
+- **Password**: `123456`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Created for the WD Projects Job Task.*
