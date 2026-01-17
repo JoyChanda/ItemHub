@@ -1,16 +1,34 @@
 import Link from 'next/link';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 async function getItem(id) {
-  const res = await fetch(`http://localhost:5000/api/items/${id}`, { cache: 'no-store' });
-  if (!res.ok) {
-    throw new Error('Item not found');
+  try {
+    const res = await fetch(`${API_URL}/items/${id}`, { 
+      cache: 'no-store',
+      signal: AbortSignal.timeout(5000)
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    console.error("Item Fetch Error:", error);
+    return null;
   }
-  return res.json();
 }
 
 export default async function ItemDetails({ params }) {
   const { id } = await params;
   const item = await getItem(id);
+
+  if (!item) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <h1 className="text-4xl font-black text-zinc-900 mb-4">Item Not Found</h1>
+        <p className="text-zinc-500 mb-8">The requested asset could not be retrieved from the collective inventory.</p>
+        <Link href="/items" className="px-8 py-4 bg-zinc-900 text-white rounded-2xl font-bold">Return to Explorer</Link>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">

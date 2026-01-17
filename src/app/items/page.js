@@ -1,11 +1,21 @@
 import Link from 'next/link';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 async function getItems() {
-  const res = await fetch('http://localhost:5000/api/items', { cache: 'no-store' });
-  if (!res.ok) {
-    throw new Error('Failed to fetch items');
+  try {
+    const res = await fetch(`${API_URL}/items`, { 
+      cache: 'no-store',
+      // Adding a timeout placeholder for serverless stability
+      signal: AbortSignal.timeout(5000) 
+    });
+    
+    if (!res.ok) return [];
+    return await res.json();
+  } catch (error) {
+    console.error("API Fetch Error:", error);
+    return []; // Return empty array to keep UI stable
   }
-  return res.json();
 }
 
 export default async function ItemsPage() {
@@ -34,7 +44,13 @@ export default async function ItemsPage() {
           </div>
         </header>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
+        {items.length === 0 ? (
+          <div className="py-32 text-center bg-zinc-50 rounded-[3rem] border border-dashed border-zinc-200">
+            <p className="text-2xl font-bold text-zinc-400">No items detected or API is offline.</p>
+            <p className="text-zinc-500 mt-2">Please verify your Backend URL and try again.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-16">
           {items.map((item) => (
             <Link 
               href={`/items/${item.id}`} 
@@ -74,6 +90,7 @@ export default async function ItemsPage() {
             </Link>
           ))}
         </div>
+        )}
       </div>
     </div>
   );

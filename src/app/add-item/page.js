@@ -27,7 +27,8 @@ export default function AddItem() {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/items', {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+      const res = await fetch(`${API_URL}/items`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
