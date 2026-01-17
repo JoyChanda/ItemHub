@@ -4,18 +4,25 @@ import { useState } from 'react';
 
 export default function LoginPage() {
   const router = useRouter();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   function handleSubmit(e) {
     e.preventDefault();
-    setLoading(true);
+    setError('');
     
-    // Simulate a small delay for premium feel
-    setTimeout(() => {
-      document.cookie = 'auth=true; path=/';
-      router.push('/items');
-      router.refresh(); // Ensure layout respects new cookie
-    }, 800);
+    if (email === 'admin@test.com' && password === '123456') {
+      setLoading(true);
+      setTimeout(() => {
+        document.cookie = 'auth=true; path=/';
+        router.push('/items');
+        router.refresh();
+      }, 800);
+    } else {
+      setError('Invalid email or password. Please try again.');
+    }
   }
 
   return (
@@ -26,12 +33,20 @@ export default function LoginPage() {
           <p className="text-gray-500">Enter your credentials to access ItemHub</p>
         </div>
 
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 text-red-600 text-sm font-medium rounded-xl border border-red-100 animate-in fade-in slide-in-from-top-1">
+            {error}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <label className="text-sm font-semibold text-zinc-700 ml-1">Email Address</label>
             <input 
               required
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@test.com" 
               className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all outline-none"
             />
@@ -41,6 +56,8 @@ export default function LoginPage() {
             <label className="text-sm font-semibold text-zinc-700 ml-1">Password</label>
             <input 
               required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••" 
               type="password" 
               className="w-full px-5 py-4 rounded-2xl border border-gray-200 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-zinc-900 focus:border-transparent transition-all outline-none"
